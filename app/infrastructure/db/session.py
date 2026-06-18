@@ -1,4 +1,5 @@
 from collections.abc import Generator
+from contextlib import contextmanager
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -12,6 +13,7 @@ def build_session_factory() -> sessionmaker[Session]:
     return sessionmaker(engine, expire_on_commit=False)
 
 
+@contextmanager
 def session_scope(factory: sessionmaker[Session]) -> Generator[Session, None, None]:
     """提供数据库事务上下文。"""
     session = factory()
